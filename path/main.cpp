@@ -7,10 +7,12 @@ int **fdata;
 int row=0,col=0,battery=0,halfB=0,dust=0;
 void ripple(int x1,int x2,int n);
 void clearfloor(void);
+void action(int y1,int y2,int m);
+ifstream fin;
+ofstream fout("floor.txt");
 int main()
 {
-    ifstream fin;
-    ofstream fout("floor.txt");
+
     fin.open("floor.data");
 
     int s1=0,s2=0;
@@ -43,6 +45,7 @@ int main()
 
     cout << "look map" << endl;
     ripple(s1,s2,0);
+    clearfloor();
     for(int i=0; i<row; i++) {
         for(int j=0; j<col; j++){
             fout<<floor[i][j];
@@ -76,5 +79,45 @@ void ripple(int x1,int x2,int n){
 }
 
 void clearfloor(void){
+    cout<<"clearfloor";
+    for(int i=0; i<row; i++) {
+        for(int j=0; j<col; j++){
+            if(floor[i][j]=='0'){action(i,j,fdata[i][j]);}
+        }
+    }
+}
 
+void action(int y1,int y2,int m){
+    if(1){
+        cout<<"action m:"<<m<<endl;
+        bool f=0;
+        floor[y1][y2]='c';
+        fout<<y1<<" "<<y2<<endl;
+        if(y1+1<row&&f==0){
+            if(fdata[y1+1][y2]==m-1){
+                f=1;
+                action(y1+1,y2,m-1);
+            }
+        }
+        if(y1-1>0&&f==0){
+            if(fdata[y1-1][y2]==m-1){
+                f=1;
+                action(y1-1,y2,m-1);
+            }
+        }
+        if(y2+1<col&&f==0){
+            if(fdata[y1][y2+1]==m-1){
+                f=1;
+                action(y1,y2+1,m-1);
+            }
+        }
+        if(y2-1>0&&f==0){
+            if(fdata[y1][y2-1]==m-1){
+                f=1;
+                action(y1,y2-1,m-1);
+            }
+        }
+
+
+    }
 }
