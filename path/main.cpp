@@ -5,7 +5,7 @@ using namespace std;
 char **floor;
 int **fdata;
 int row=0,col=0,battery=0,halfB=0,dust=0;
-int power=0,cha=0;
+int power=0,cha=0,step=0;
 void ripple(int x1,int x2,int n);
 void clearfloor(void);
 void action(int y1,int y2,int m);
@@ -46,20 +46,21 @@ int main()
     }
     //start
 
-    cout << "look map" << endl;
+    //cout << "look map" << endl;
     ripple(s1,s2,0);
     clearfloor();
-    for(int i=0; i<row; i++) {
+    fout<<step<<endl;
+    /*for(int i=0; i<row; i++) {
         for(int j=0; j<col; j++){
             fout<<floor[i][j];
         }fout<<endl;
-    }
-    cout<<s1<<s2<<endl;
+    }*/
+    /*cout<<s1<<s2<<endl;
     for(int i=0; i<row; i++) {
         for(int j=0; j<col; j++){
             cout<<fdata[i][j];
         }cout<<endl;
-    }
+    }*/
     for(int i=0; i<row; i++) {
         delete [] floor[i];
         delete [] fdata[i];
@@ -82,12 +83,13 @@ void ripple(int x1,int x2,int n){
 }
 
 void clearfloor(void){
-    cout<<"clearfloor";
+    //cout<<"clearfloor";
 
     for(int i=0; i<row; i++) {
         for(int j=0; j<col; j++){
                 power=0;
             if(floor[i][j]=='0'){
+                    step--;
                     action(i,j,fdata[i][j]);
                     power=halfB-fdata[i][j];
                     domore(i,j,fdata[i][j]);
@@ -100,10 +102,10 @@ void clearfloor(void){
 
 void actionback(int y1,int y2,int m){
     if(1){
-        cout<<"action m:"<<m<<endl;
+        //cout<<"action m:"<<m<<endl;
         bool f=0;
         floor[y1][y2]='c';
-        if(cha==0)fout<<y1<<" "<<y2<<"back"<<endl;
+        if(cha==0){fout<<y1<<" "<<y2<<endl;step++;}
         else cha=0;
         if(y1+1<row&&f==0){
             if(fdata[y1+1][y2]==m-1&&floor[y1+1][y2]!='c'){
@@ -159,7 +161,7 @@ void actionback(int y1,int y2,int m){
 
 void action(int y1,int y2,int m){
     if(1){
-        cout<<"action m:"<<m<<endl;
+        //cout<<"action m:"<<m<<endl;
         bool f=0;
         floor[y1][y2]='c';
 
@@ -211,7 +213,7 @@ void action(int y1,int y2,int m){
                 action(y1,y2-1,m-1);
             }
         }
-        fout<<y1<<" "<<y2<<"go"<<endl;
+        fout<<y1<<" "<<y2<<endl;step++;
 
     }
 }
@@ -225,7 +227,7 @@ void domore(int z1,int z2,int o){
                 g=1;
                 power--;
                 floor[z1+1][z2]='c';
-                fout<<z1+1<<" "<<z2<<"do more"<<endl;
+                fout<<z1+1<<" "<<z2<<endl;step++;
                 domore(z1+1,z2,o+1);
             }
         }
@@ -234,7 +236,7 @@ void domore(int z1,int z2,int o){
                 g=1;
                 power--;
                 floor[z1-1][z2]='c';
-                fout<<z1-1<<" "<<z2<<"do more"<<endl;
+                fout<<z1-1<<" "<<z2<<endl;step++;
                 domore(z1-1,z2,o+1);
             }
         }
@@ -243,7 +245,7 @@ void domore(int z1,int z2,int o){
                 g=1;
                 power--;
                 floor[z1][z2+1]='c';
-                fout<<z1<<" "<<z2+1<<"do more"<<endl;
+                fout<<z1<<" "<<z2+1<<endl;step++;
                 domore(z1,z2+1,o+1);
             }
         }
@@ -252,7 +254,7 @@ void domore(int z1,int z2,int o){
                 g=1;
                 power--;
                 floor[z1][z2-1]='c';
-                fout<<z1<<" "<<z2-1<<"do more"<<endl;
+                fout<<z1<<" "<<z2-1<<endl;step++;
                 domore(z1,z2-1,o+1);
             }
         }
@@ -262,7 +264,7 @@ void domore(int z1,int z2,int o){
                 g=1;
                 power--;
                 floor[z1+1][z2]='c';
-                fout<<z1+1<<" "<<z2<<"do more"<<endl;
+                fout<<z1+1<<" "<<z2<<endl;step++;
                 domore(z1+1,z2,o);
             }
         }
@@ -271,7 +273,7 @@ void domore(int z1,int z2,int o){
                 g=1;
                 power--;
                 floor[z1-1][z2]='c';
-                fout<<z1-1<<" "<<z2<<"do more"<<endl;
+                fout<<z1-1<<" "<<z2<<endl;step++;
                 domore(z1-1,z2,o);
             }
         }
@@ -280,7 +282,7 @@ void domore(int z1,int z2,int o){
                 g=1;
                 power--;
                 floor[z1][z2+1]='c';
-                fout<<z1<<" "<<z2+1<<"do more"<<endl;
+                fout<<z1<<" "<<z2+1<<endl;step++;
                 domore(z1,z2+1,o);
             }
         }
@@ -289,7 +291,7 @@ void domore(int z1,int z2,int o){
                 g=1;
                 power--;
                 floor[z1][z2-1]='c';
-                fout<<z1<<" "<<z2-1<<"do more"<<endl;
+                fout<<z1<<" "<<z2-1<<endl;step++;
                 domore(z1,z2-1,o);
             }
         }
@@ -299,7 +301,7 @@ void domore(int z1,int z2,int o){
                 g=1;
                 power--;
                 floor[z1+1][z2]='c';
-                fout<<z1+1<<" "<<z2<<"do more"<<endl;
+                fout<<z1+1<<" "<<z2<<endl;step++;
                 domore(z1+1,z2,o-1);
             }
         }
@@ -308,7 +310,7 @@ void domore(int z1,int z2,int o){
                 g=1;
                 power--;
                 floor[z1-1][z2]='c';
-                fout<<z1-1<<" "<<z2<<"do more"<<endl;
+                fout<<z1-1<<" "<<z2<<endl;step++;
                 domore(z1-1,z2,o-1);
             }
         }
@@ -317,7 +319,7 @@ void domore(int z1,int z2,int o){
                 g=1;
                 power--;
                 floor[z1][z2+1]='c';
-                fout<<z1<<" "<<z2+1<<"do more"<<endl;
+                fout<<z1<<" "<<z2+1<<endl;step++;
                 domore(z1,z2+1,o-1);
             }
         }
@@ -326,10 +328,10 @@ void domore(int z1,int z2,int o){
                 g=1;
                 power--;
                 floor[z1][z2-1]='c';
-                fout<<z1<<" "<<z2-1<<"do more"<<endl;
+                fout<<z1<<" "<<z2-1<<endl;step++;
                 domore(z1,z2-1,o-1);
             }
         }
-        if(g==1)fout<<z1<<" "<<z2<<"do more back"<<endl;
+        if(g==1){fout<<z1<<" "<<z2<<endl;step++;}
     }
 }
