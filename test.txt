@@ -6,6 +6,7 @@ char **floor;
 int **fdata;
 int row=0,col=0,battery=0,halfB=0,dust=0;
 int power=0,cha=0,step=0;
+char buf[6];
 void ripple(int x1,int x2,int n);
 void clearfloor(void);
 void action(int y1,int y2,int m);
@@ -19,7 +20,6 @@ int main()
     fin.open("floor.data");
 
     int s1=0,s2=0;
-
     //initialize
     if(fin.is_open()){
       fin>>row>>col>>battery;
@@ -47,9 +47,19 @@ int main()
     //start
 
     //cout << "look map" << endl;
+
     ripple(s1,s2,0);
     clearfloor();
-    fout<<step<<endl;
+    fout.close();
+    fin.clear();
+    fin.open("floor.txt");
+    fstream finout("floor.path");
+    //finout.seekg(0);
+    finout<<step<<endl;
+    while(!fin.eof()){
+        fin.getline(buf,5);
+        finout<<buf<<endl;
+    }
     /*for(int i=0; i<row; i++) {
         for(int j=0; j<col; j++){
             fout<<floor[i][j];
@@ -65,7 +75,8 @@ int main()
         delete [] floor[i];
         delete [] fdata[i];
     }
-    fout.close();
+    finout.close();
+    fin.close();
     delete [] floor;
     delete [] fdata;
     return 0;
