@@ -53,7 +53,7 @@ int main()
     fout.close();
     fin.clear();
     fin.open("floor.txt");
-    fstream finout("floor.path");
+    ofstream finout("floor.path");
     //finout.seekg(0);
     finout<<step<<endl;
     while(!fin.eof()){
