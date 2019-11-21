@@ -6,7 +6,7 @@ char **floor;
 int **fdata;
 int row=0,col=0,battery=0,halfB=0,dust=0;
 int power=0,cha=0,step=0;
-char buf[6];
+char buf[100];
 void ripple(int x1,int x2,int n);
 void clearfloor(void);
 void action(int y1,int y2,int m);
@@ -53,11 +53,11 @@ int main()
     fout.close();
     fin.clear();
     fin.open("floor.txt");
-    ofstream finout("floor.path");
+    ofstream finout("floor.path",ios::out);
     //finout.seekg(0);
     finout<<step<<endl;
     while(!fin.eof()){
-        fin.getline(buf,5);
+        fin.getline(buf,99);
         finout<<buf<<endl;
     }
     /*for(int i=0; i<row; i++) {
